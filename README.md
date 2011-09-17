@@ -1,3 +1,3 @@
-# Sudoku
+# codecollab
 
-This is an example web application using express and hook.io
+This is a realtime online code collaboration tool.
