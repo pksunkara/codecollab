@@ -1,0 +1,17 @@
+<script src="/socket.io/socket.io.js"></script>
+<script>
+
+var socket = io.connect("http://localhost");
+socket.on('asking name', function(data){
+	console.log(data);
+	// Add code to get the user name in this case
+	socket.emit('giving name', {name://This is where the name is to be passed
+	});
+});
+
+socket.on('message', function(data){
+	// Also add the code to display the chat to the user in the chat window in this case
+	console.log(data.name + ' : ' + data.msg);
+});
+
+</script>
