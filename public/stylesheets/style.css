@@ -274,3 +274,6 @@ body{padding-top: 40px;}
 .content .span3{margin-left: 0;padding-left: 19px;border-left: 1px solid #eee;}
 .topbar .btn{border: 0;}
 .topbar input{margin-right: 5px;}
+.ace_warning, .ace_error{display: none;}
+pre#editor{margin: 0px; padding: 0px;}
+.chatbox{border: 1px solid #333333; width:100%; height:500px;}

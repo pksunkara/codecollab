@@ -1,10 +1,8 @@
-
 /**
  * Module dependencies.
  */
 
-var express = require('express'),
-    uid = require('./uid');
+var express = require('express');
 
 var app = module.exports = express.createServer();
 
@@ -36,7 +34,7 @@ app.get('/', function(req, res){
 });
 
 app.get('/new', function(req, res){
-  res.redirect('/code/' + uid.gen());
+  res.redirect('/code/' + randomString());
 });
 
 app.get('/join', function(req, res){
@@ -55,3 +53,11 @@ app.get('/code/:id', function(req, res){
 
 app.listen(3000);
 console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+
+function randomString() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for( var i=0; i < 5; i++ )
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+}

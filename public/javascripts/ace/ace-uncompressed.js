@@ -15696,7 +15696,7 @@ exports.create = create;
 
 
 });
-define("text!ace/css/editor.css", [], "@import url(//fonts.googleapis.com/css?family=Droid+Sans+Mono);\n" +
+define("text!ace/css/editor.css", [], "@import url(/stylesheets/font.css);\n" +
   "\n" +
   "\n" +
   ".ace_editor {\n" +
@@ -16728,7 +16728,7 @@ define("text!doc/site/style.css", [], "body {\n" +
   "\n" +
   "");
 
-define("text!lib/ace/css/editor.css", [], "@import url(//fonts.googleapis.com/css?family=Droid+Sans+Mono);\n" +
+define("text!lib/ace/css/editor.css", [], "@import url(/stylesheets/font.css);\n" +
   "\n" +
   "\n" +
   ".ace_editor {\n" +
