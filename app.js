@@ -37,7 +37,7 @@ app.get('/', function(req, res){
 app.get('/:id', function(req, res){
   res.render('code', {
    title: 'CodeCollab'
-  });
+	      });
 });
 
 app.listen(3000);
