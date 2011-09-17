@@ -3,6 +3,7 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
+    link(rel='javascript', href='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js')
   body
     .topbar
       .fill
@@ -21,13 +22,6 @@ html
             input.input-small(type='text', placeholder='Password')
             button.btn(type='submit') Sign in
     .container
-      .content
-        .page-header
-          h1 app.js 
-            small my web application server script
-        .row
-          .span10!= body
-          .span4
-            h3 Discussion Chat
+      .content!= body
       footer
         p Copyright © 2011, Codinators
