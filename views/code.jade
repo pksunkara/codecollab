@@ -2,8 +2,8 @@
   h1 app.js 
     small my web application server script
 .row
-  .span10
-    textarea(style='width:550px;height:500px')
+  .span11
+    textarea.span10(style='height:500px')
       var express = require('express');
       
       var app = module.exports = express.createServer();
@@ -34,5 +34,5 @@
       
       app.listen(3000);
       console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
-  .span4
+  .span3
     h3 Discussion chat
