@@ -1,3 +1,3 @@
 # codecollab
 
-This is an online code collaboration tool.
+This is a realtime online code collaboration tool.
