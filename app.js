@@ -3,7 +3,8 @@
  * Module dependencies.
  */
 
-var express = require('express');
+var express = require('express'),
+    uid = require('./uid');
 
 var app = module.exports = express.createServer();
 
@@ -34,7 +35,16 @@ app.get('/', function(req, res){
   });
 });
 
-app.get('/:id', function(req, res){
+app.get('/new', function(req, res){
+  res.redirect('/code/' + uid.gen());
+});
+
+app.get('/join', function(req, res){
+  console.log(req.params);
+  res.redirect('/code/' + req.params.id);
+});
+
+app.get('/code/:id', function(req, res){
   res.render('code', {
    title: 'CodeCollab'
   });
