@@ -3,4 +3,31 @@ html
   head
     title= title
     link(rel='stylesheet', href='/stylesheets/style.css')
-  body!= body
+  body
+    .topbar
+      .fill
+        .container
+          h3
+            a(href='#') CodeCollab
+          ul.nav
+            li.active
+              a(href='#') Home
+            li
+              a(href='#') About
+            li
+              a(href='#') Help
+          form.pull-right
+            input.input-small(type='text', placeholder='Username')
+            input.input-small(type='text', placeholder='Password')
+            button.btn(type='submit') Sign in
+    .container
+      .content
+        .page-header
+          h1 app.js 
+            small my web application server script
+        .row
+          .span10!= body
+          .span4
+            h3 Discussion Chat
+      footer
+        p Copyright © 2011, Codinators
