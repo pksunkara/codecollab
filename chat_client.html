@@ -4,9 +4,8 @@
 var socket = io.connect("http://localhost");
 socket.on('asking name', function(data){
 	console.log(data);
-	// Add code to get the user name in this case
-	socket.emit('giving name', {name://This is where the name is to be passed
-	});
+	var nickname = prompt('Your nick ?');
+	socket.emit('giving name', {name:nickname});
 });
 
 socket.on('message', function(data){
