@@ -1,3 +1,3 @@
-# Codecollab
+# codecollab
 
-This is a web application which many users can edit code in realtime.
+This is a realtime online code collaboration tool.
