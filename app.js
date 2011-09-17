@@ -40,8 +40,7 @@ app.get('/new', function(req, res){
 });
 
 app.get('/join', function(req, res){
-  console.log(req.params);
-  res.redirect('/code/' + req.params.id);
+  res.redirect('/code/' + req.param('id', ''));
 });
 
 app.get('/code/:id', function(req, res){
