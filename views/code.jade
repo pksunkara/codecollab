@@ -1,41 +1,70 @@
-script(source='ace_editor/ace.js')
-script(source='ace_editor/theme-twilight.js')
-script(source='ace_editor/mode-javascript.js')
+script(src='/javascripts/ace/ace.js')
+script(src='/javascripts/ace/theme-twilight.js')
+script(src='/javascripts/ace/mode-javascript.js')
+script(type='text/javascript')
+  window.onload = function() {
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/twilight");
+
+    var JavaScriptMode = require("ace/mode/javascript").Mode;
+    editor.getSession().setMode(new JavaScriptMode());
+  }
 .page-header
   h1 app.js 
     small my web application server script
 .row
   .span11
-    #editor.span10(style='height:500px')
-      var express = require('express');
-      
-      var app = module.exports = express.createServer();
-      
-      app.configure(function(){
-        app.set('views', __dirname + '/views');
-        app.set('view engine', 'jade');
-        app.use(express.bodyParser());
-        app.use(express.methodOverride());
-        app.use(app.router);
-        app.use(express.static(__dirname + '/public'));
-      });
-      
-      app.configure('development', function(){
-        app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-      });
-      
-      app.configure('production', function(){
-        app.use(express.errorHandler());
-      });
-      
-      // Routes
-      app.get('/', function(req, res){
-        res.render('index', {
-          title: 'CodeCollab'
-        });
-      });
-      
-      app.listen(3000);
-      console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+    pre#editor.span10(style='height:500px')
+      | var express = require('express'),
+      |     uid = require('./uid');
+      | 
+      | var app = module.exports = express.createServer();
+      | 
+      | // Configuration
+      | app.configure(function(){
+      |   app.set('views', __dirname + '/views');
+      |   app.set('view engine', 'jade');
+      |   app.use(express.bodyParser());
+      |   app.use(express.methodOverride());
+      |   app.use(app.router);
+      |   app.use(express.static(__dirname + '/public'));
+      | });
+      | 
+      | app.configure('development', function(){
+      |   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+      | });
+      | 
+      | app.configure('production', function(){
+      |   app.use(express.errorHandler());
+      | });
+      | 
+      | // Routes
+      | app.get('/', function(req, res){
+      |   res.render('index', {
+      |     title: 'CodeCollab'
+      |   });
+      | });
+      | 
+      | app.get('/new', function(req, res){
+      |   res.redirect('/code/' + uid.gen());
+      | });
+      | 
+      | app.get('/join', function(req, res){
+      |   var id = req.param('id', null);
+      |   console.log(id);
+      |   if(id==null)
+      |     res.redirect('/');
+      |   else
+      |     res.redirect('/code/' + id);
+      | });
+      | 
+      | app.get('/code/:id', function(req, res){
+      |   res.render('code', {
+      |    title: 'CodeCollab'
+      |   });
+      | });
+      | 
+      | app.listen(3000);
+      | console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
   .span3
     h3 Discussion chat

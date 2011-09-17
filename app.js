@@ -40,13 +40,17 @@ app.get('/new', function(req, res){
 });
 
 app.get('/join', function(req, res){
-  res.redirect('/code/' + req.param('id', ''));
+  var id = req.param('id', '');
+  if(id=='')
+    res.redirect('/');
+  else
+    res.redirect('/code/' + id);
 });
 
 app.get('/code/:id', function(req, res){
   res.render('code', {
    title: 'CodeCollab'
-	      });
+  });
 });
 
 app.listen(3000);
