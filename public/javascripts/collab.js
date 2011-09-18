@@ -20,6 +20,19 @@ sendChat = function() {
   e.value = '';
 }
 
+key_handler = function (key) {
+	console.log('{'+cpos+','+ver+','+substr+','+e+'}');
+	socket.emit('text edit', {cursor:cpos, version:ver, substring:substr, edit:e});
+});
+
+socket.on('text edit', function (data){
+	console.log('text-edit: '+data);
+	var text = acee.getValue();
+	text = text.substr(0,data.cpos-1) + data.edit + text.substr(data.cpos -1 + data.edit.length);
+	ver += 1;
+	acee.setValue(text);
+});
+
 socket.on('nickname?', function(data){
 	var nickname = prompt('Your nickname?');
 	socket.emit('nickname', nickname);
