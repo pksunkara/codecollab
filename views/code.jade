@@ -1,6 +1,8 @@
 script(src='/javascripts/ace/ace.js')
 script(src='/javascripts/ace/theme-twilight.js')
 script(src='/javascripts/ace/mode-javascript.js')
+script(src='/socket.io/socket.io.js')
+script(src='/javascripts/collab.js')
 script(type='text/javascript')
   window.onload = function() {
     var editor = ace.edit("editor");
@@ -65,11 +67,9 @@ script(type='text/javascript')
       | });
       | 
       | app.listen(3000);
-      | console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
   .span3
     pre.members
-      | pksunkara
-      | gsiddardha
-      | nihar
     pre.chatbox
-    input.chat
+    form(action='',onsubmit='sendChat(); return false;')
+      input.chat
+      input(type='submit',style='display:none;')
