@@ -1,5 +1,6 @@
 var socket = io.connect(window.location.origin);
 var members = [];
+var nickname = '';
 
 var docVersion = 0,
     noNeed = [37, 38, 39, 40],
@@ -66,17 +67,20 @@ socket.on('edit', function (data){
   var text = acee.getSession().getValue();
   var currentCursor = getCursor();
   if(data.d.edit == '\b') {
-    text = text.substr(0,data.d.cursor-1) + text.substr(data.d.cursor);
+    if(nickname==data.n) {
+      text = text.substr(0,data.d.cursor) + text.substr(data.d.cursor);
+      data.d.cursor--;
+    } else
+      text = text.substr(0,data.d.cursor) + text.substr(data.d.cursor+1);
   } else {
     text = text.substr(0,data.d.cursor) + data.d.edit + text.substr(data.d.cursor);
   }
   docVersion += 1;
   acee.getSession().setValue(text);
-  nickname = localStorage.getItem('nickname');
   if(data.n == nickname){
     setCursor(data.d.cursor);
   } else {
-    if(data.d.cursor>currentCursor)
+    if(data.d.cursor>=currentCursor)
       setCursor(currentCursor-1);
     else
       setCursor(currentCursor);
@@ -89,9 +93,8 @@ socket.on('version', function(data){
 });
 
 socket.on('nickname?', function(data){
-  var nickname = prompt('Your nickname?');
+  nickname = prompt('Your nickname?');
   socket.emit('nickname', nickname);
-  localStorage.setItem('nickname', nickname);
   socket.on('members', function(data){
     members = data;
     updateMembers();
