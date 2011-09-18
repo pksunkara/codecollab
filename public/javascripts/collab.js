@@ -48,9 +48,9 @@ setCursor = function(val) {
       column++;
   }
   acee.gotoLine(linem1+1);
-  var cursor = $('.ace_cursor')[0];
-  console.log("Column - " + column);
-  cursor.style.left = (column*7+4)+'px';
+  for(i=0; i<=column; i++) {
+    acee.selection.moveCursorRight();
+  }
 }
 
 key_handler = function (event) {
