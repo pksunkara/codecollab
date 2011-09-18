@@ -90,7 +90,11 @@ io.sockets.on('connection', function(socket){
         tmp.cursor += history[i].len;
     }
     data.cursor = tmp.cursor;
-    codeToCollab = codeToCollab.substr(0,data.cursor-1) + data.edit + codeToCollab.substr(data.cursor-1+data.edit.length);
+    if(data.edit=='\b') {
+      codeToCollab = codeToCollab.substr(0,data.cursor-1) + codeToCollab.substr(data.cursor);
+    } else {
+      codeToCollab = codeToCollab.substr(0,data.cursor-1) + data.edit + codeToCollab.substr(data.cursor);
+    }
     docVersion += 1;
     history.push(tmp);
     io.sockets.emit('edit', data);

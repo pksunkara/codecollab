@@ -64,7 +64,11 @@ key_handler = function (event) {
 
 socket.on('edit', function (data){
   var text = acee.getSession().getValue();
-  text = text.substr(0,data.cursor) + data.edit + text.substr(data.cursor-1+data.edit.length);
+  if(data.edit == '\b') {
+    text = text.substr(0,data.cursor-1) + text.substr(data.cursor);
+  } else {
+    text = text.substr(0,data.cursor) + data.edit + text.substr(data.cursor);
+  }
   docVersion += 1;
   acee.getSession().setValue(text);
   setCursor(data.cursor);
