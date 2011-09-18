@@ -25,15 +25,32 @@ sendChat = function() {
 }
 
 getCursor = function() {
-  cursor = $('.ace_cursor')[0];
-  linem1 = parseInt(cursor.style.top.replace('px',''))/18;
-  column = (parseInt(cursor.style.left.replace('px',''))-4)/7;
+  cursor = acee.getCursorPosition();
+  linem1 = cursor.row;
+  column = cursor.column;
   text = acee.getSession().getValue().split("\n");
   pos = 0;
   for(i=0;i<linem1;i++) {
     pos += text[i].length+1;
   }
   return pos+column;
+}
+
+setCursor = function(val) {
+  var text = acee.getSession().getValue();
+  var linem1 = 0;
+  var column = 0;
+  for(i=0;i<val;i++) {
+    if(text[i]=="\n") {
+      linem1++;
+      column = 0;
+    } else
+      column++;
+  }
+  acee.gotoLine(linem1+1);
+  var cursor = $('.ace_cursor')[0];
+  console.log("Column - " + column);
+  cursor.style.left = (column*7+4)+'px';
 }
 
 key_handler = function (event) {
@@ -47,9 +64,10 @@ key_handler = function (event) {
 
 socket.on('edit', function (data){
   var text = acee.getSession().getValue();
-  text = text.substr(0,data.cursor-1) + data.edit + text.substr(data.cursor-1+data.edit.length);
+  text = text.substr(0,data.cursor) + data.edit + text.substr(data.cursor-1+data.edit.length);
   docVersion += 1;
   acee.getSession().setValue(text);
+  setCursor(data.cursor);
 });
 
 socket.on('version', function(data){
