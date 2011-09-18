@@ -274,3 +274,8 @@ body{padding-top: 40px;}
 .content .span3{margin-left: 0;padding-left: 19px;border-left: 1px solid #eee;}
 .topbar .btn{border: 0;}
 .topbar input{margin-right: 5px;}
+.ace_warning, .ace_error{display: none;}
+pre#editor{margin: 0px; padding: 0px;}
+.members{border: 1px solid #333333; width:88%; height:70px;margin-bottom:10px;padding:10px;overflow:auto;white-space:pre;word-wrap:normal;background-color:#333333;color:#ffffff;}
+.chatbox{border: 1px solid #333333; width:88%; height:335px;margin-bottom:10px;padding:10px;background-color:#333333;color:#ffffff; overflow-y:auto;}
+.chat{border:1px solid #333333;width:88%;height:10px;padding:10px;background-color:#333333;color:#ffffff; }
