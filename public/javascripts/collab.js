@@ -75,12 +75,14 @@ socket.on('edit', function (data){
   docVersion += 1;
   acee.getSession().setValue(text);
 
-  if(data.n == socket.nickname){
-    setCursor(data.d.cursor);
-  } else {
-    setCursor(currentCursor);
-  }
+  socket.get('nickname', function(err, nickame){
+    if(data.n == nickname){
+      setCursor(data.d.cursor);
+    } else {
+      setCursor(currentCursor);
+    }
   });
+});
 
 socket.on('version', function(data){
   version = data.version;
