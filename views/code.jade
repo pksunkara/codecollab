@@ -4,12 +4,13 @@ script(src='/javascripts/ace/mode-javascript.js')
 script(src='/socket.io/socket.io.js')
 script(src='/javascripts/collab.js')
 script(type='text/javascript')
+  var acee = null;
   window.onload = function() {
     var editor = ace.edit("editor");
     editor.setTheme("ace/theme/twilight");
-
     var JavaScriptMode = require("ace/mode/javascript").Mode;
     editor.getSession().setMode(new JavaScriptMode());
+    acee = editor.getSession();
   }
 .page-header
   h1 app.js 
