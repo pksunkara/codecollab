@@ -47,9 +47,9 @@ key_handler = function (event) {
 
 socket.on('edit', function (data){
   var text = acee.getSession().getValue();
-  text = text.substr(0,data.cursor-1) + data.edit + text.substr(data.cursor-1+data.edit.length);
+  //text = text.substr(0,data.cursor-1) + data.edit + text.substr(data.cursor-1+data.edit.length);
   docVersion += 1;
-  acee.getSession().setValue(text);
+  acee.getSession().insert(data.edit);
 });
 
 socket.on('version', function(data){
