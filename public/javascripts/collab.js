@@ -28,7 +28,7 @@ getCursor = function() {
   cursor = $('.ace_cursor')[0];
   linem1 = parseInt(cursor.style.top.replace('px',''))/18;
   column = (parseInt(cursor.style.left.replace('px',''))-4)/7;
-  text = acee.getValue().split("\n");
+  text = acee.getSession().getValue().split("\n");
   pos = 0;
   for(i=0;i<linem1;i++) {
     pos += text[i].length+1;
@@ -46,15 +46,15 @@ key_handler = function (event) {
 }
 
 socket.on('edit', function (data){
-  var text = acee.getValue();
+  var text = acee.getSession().getValue();
   text = text.substr(0,data.cursor-1) + data.edit + text.substr(data.cursor-1+data.edit.length);
   docVersion += 1;
-  acee.setValue(text);
+  acee.getSession().setValue(text);
 });
 
 socket.on('version', function(data){
   version = data.version;
-  acee.setValue(data.text);
+  acee.getSession().setValue(data.text);
 });
 
 socket.on('nickname?', function(data){
