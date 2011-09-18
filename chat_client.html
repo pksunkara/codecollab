@@ -1,6 +1,6 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
-
+var ver = 0;
 var socket = io.connect("http://localhost");
 socket.on('asking name', function(data){
 	console.log(data);
@@ -11,6 +11,23 @@ socket.on('asking name', function(data){
 socket.on('message', function(data){
 	// Also add the code to display the chat to the user in the chat window in this case
 	console.log(data.name + ' : ' + data.msg);
+});
+
+function key_handler(key) {
+		
+
+	console.log('{'+cpos+','+ver+','+substr+','+e+ '}');
+	socket.emit('text edit', {cursor:cpos, version:ver, substring:substr, edit:e});
+});
+
+socket.on('text edit', function (data){
+	console.log('text-edit: '+data);
+	var text = acee.getValue();
+
+	text = text.substr(0,data.cpos-1) + data.edit + text.substr(data.cpos -1 + data.edit.length);
+	ver += 1;
+
+	acee.setValue(text);
 });
 
 </script>
