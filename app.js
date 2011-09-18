@@ -58,28 +58,28 @@ app.get('/code/:id', function(req, res){
 var sessions = [];
 
 io.sockets.on('connection', function(socket){
-	socket.emit('nickname?', {});
-	socket.on('nickname', function(data){
-	  data = (data===null)? randomString() : data;
-	  console.log(data, 'joined the session');
+  socket.emit('nickname?', {});
+  socket.on('nickname', function(data){
+    data = (data===null)? randomString() : data;
+    console.log(data, 'joined the session');
     socket.emit('members', sessions);
-	  io.sockets.emit('join', {name: data, msg: data+' has joined the session'});
-	  socket.set('nickname', data);
-	  sessions.push(data);
-	});
-	socket.on('chat', function(data){
-	  socket.get('nickname', function(err, nickname){
-  		console.log("msg from", nickname, ":", data);
-  		io.sockets.emit('chat', nickname+': '+data);
-	  });
-	});
-	socket.on('disconnect', function(){
-	  socket.get('nickname', function(err, nickname){	    
-  	  console.log(nickname, 'quit the session');
-  	  io.sockets.emit('quit', {name: nickname, msg: nickname+' has quit the session'});
-  	  sessions.splice(sessions.indexOf(nickname), 1);
-	  });
-	});
+    io.sockets.emit('join', {name: data, msg: data+' has joined the session'});
+    socket.set('nickname', data);
+    sessions.push(data);
+  });
+  socket.on('chat', function(data){
+    socket.get('nickname', function(err, nickname){
+      console.log("msg from", nickname, ":", data);
+      io.sockets.emit('chat', nickname+': '+data);
+    });
+  });
+  socket.on('disconnect', function(){
+    socket.get('nickname', function(err, nickname){
+      console.log(nickname, 'quit the session');
+      io.sockets.emit('quit', {name: nickname, msg: nickname+' has quit the session'});
+      sessions.splice(sessions.indexOf(nickname), 1);
+    });
+  });
 })
 
 // Start listening to server
