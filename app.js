@@ -90,6 +90,8 @@ io.sockets.on('connection', function(socket){
         tmp.cursor += history[i].len;
     }
     data.cursor = tmp.cursor;
+    codeToCollab = codeToCollab.substr(0,data.cursor-1) + data.edit + codeToCollab.substr(data.cursor-1+data.edit.length);
+    docVersion += 1;
     history.push(tmp);
     io.sockets.emit('edit', data);
   });
@@ -105,4 +107,4 @@ function randomString() {
   return text;
 }
 
-var codeToCollab = "io.sockets.on('connection', function(socket){\n  socket.emit('nickname?', {});\n  socket.on('nickname', function(data){\n    data = (data===null)? randomString() : data;\n    socket.emit('members', sessions);\n    io.sockets.emit('join', {name: data, msg: data+' has joined the session'});\n    socket.set('nickname', data);\n    sessions.push(data);\n  });\n  socket.on('chat', function(data){\n    socket.get('nickname', function(err, nickname){\n      io.sockets.emit('chat', nickname+': '+data);\n    });\n  });\n  socket.on('disconnect', function(){\n    socket.get('nickname', function(err, nickname){\n      io.sockets.emit('quit', {name: nickname, msg: nickname+' has quit the session'});\n      sessions.splice(sessions.indexOf(nickname), 1);\n    });\n  });\n  socket.on('edit', function(data){\n    tmp = {cursor: data.cursor, len: (data.edit.length - data.sbstr.length)}\n    for(i=docVersion-data.version-1; i>=0; i--) {\n      if(tmp.cursor >= history[i].cursor)\n        tmp.cursor += history[i].len;\n    }\n    data.cursor = tmp.cursor;\n    history.push(tmp);\n    io.sockets.emit('edit', data);\n  });\n});"
+var codeToCollab = "var express = require('express');\n\nvar app = module.exports = express.createServer();\n\nvar io = require('socket.io').listen(app);\n\n// Configuration\napp.configure('development', function(){\n  app.use(express.errorHandler({ dumpExceptions: true, showStack: true })); \n});\n\napp.configure('production', function(){\n  app.use(express.errorHandler()); \n});\n\n// Routes\n\napp.get('/', function(req, res){\n  res.render('index', {\n    title: 'CodeCollab'\n  });\n});\n\napp.get('/new', function(req, res){\n  res.redirect('/code/' + randomString());\n});\n\napp.get('/join', function(req, res){\n  var id = req.param('id', '');\n  if(id=='')\n    res.redirect('/');\n  else\n    res.redirect('/code/' + id);\n});\n\napp.get('/code/:id', function(req, res){\n  res.render('code', {\n   title: 'CodeCollab',\n   code: codeToCollab\n  });\n});\n\napp.listen(3000);\n"
