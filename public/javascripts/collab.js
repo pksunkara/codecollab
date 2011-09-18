@@ -62,7 +62,6 @@ key_handler = function (event) {
   }
 }
 
-
 socket.on('edit', function (data){
   var text = acee.getSession().getValue();
   var currentCursor = getCursor();
@@ -71,15 +70,16 @@ socket.on('edit', function (data){
   } else {
     text = text.substr(0,data.d.cursor) + data.d.edit + text.substr(data.d.cursor);
   }
-
   docVersion += 1;
   acee.getSession().setValue(text);
-
   nickname = localStorage.getItem('nickname');
   if(data.n == nickname){
     setCursor(data.d.cursor);
   } else {
-    setCursor(currentCursor);
+    if(data.d.cursor>currentCursor)
+      setCursor(currentCursor-1);
+    else
+      setCursor(currentCursor);
   }
 });
 
