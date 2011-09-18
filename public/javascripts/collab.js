@@ -23,7 +23,7 @@ sendChat = function() {
 key_handler = function (key) {
 	console.log('{'+cpos+','+ver+','+substr+','+e+'}');
 	socket.emit('text edit', {cursor:cpos, version:ver, substring:substr, edit:e});
-});
+}
 
 socket.on('text edit', function (data){
 	console.log('text-edit: '+data);
