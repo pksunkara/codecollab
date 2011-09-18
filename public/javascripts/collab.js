@@ -33,7 +33,7 @@ socket.on('nickname?', function(data){
     putChat(data.msg);
 	});
 	socket.on('quit', function(data){
-	  members.slice(members.indexOf(data.name)+1);
+	  members.splice(members.indexOf(data.name), 1);
 	  updateMembers();
 	  putChat(data.msg);
 	});

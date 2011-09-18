@@ -60,6 +60,7 @@ var sessions = [];
 io.sockets.on('connection', function(socket){
 	socket.emit('nickname?', {});
 	socket.on('nickname', function(data){
+	  data = (data===null)? randomString() : data;
 	  console.log(data, 'joined the session');
     socket.emit('members', sessions);
 	  io.sockets.emit('join', {name: data, msg: data+' has joined the session'});
