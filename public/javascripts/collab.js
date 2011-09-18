@@ -62,16 +62,26 @@ key_handler = function (event) {
   }
 }
 
+
 socket.on('edit', function (data){
   var text = acee.getSession().getValue();
-  if(data.edit == '\b') {
-    text = text.substr(0,data.cursor-1) + text.substr(data.cursor);
+  var currentCursor = getCursor();
+  if(data.d.edit == '\b') {
+    text = text.substr(0,data.d.cursor-1) + text.substr(data.d.cursor);
   } else {
-    text = text.substr(0,data.cursor) + data.edit + text.substr(data.cursor);
+    text = text.substr(0,data.d.cursor) + data.d.edit + text.substr(data.d.cursor);
   }
+
   docVersion += 1;
   acee.getSession().setValue(text);
-  setCursor(data.cursor);
+
+  socket.get('nickname', function(err, nickame){
+    if(data.n == nickname){
+      setCursor(data.d.cursor);
+    } else {
+      setCursor(currentCursor);
+    }
+  });
 });
 
 socket.on('version', function(data){
@@ -82,6 +92,7 @@ socket.on('version', function(data){
 socket.on('nickname?', function(data){
   var nickname = prompt('Your nickname?');
   socket.emit('nickname', nickname);
+  socket.set('nickname', nickname);
   socket.on('members', function(data){
     members = data;
     updateMembers();

@@ -97,7 +97,10 @@ io.sockets.on('connection', function(socket){
     }
     docVersion += 1;
     history.push(tmp);
-    io.sockets.emit('edit', data);
+
+    socket.get('nickname', function(err, nickname) {
+      io.sockets.emit('edit', {d:data, n:nickname});
+    });
   });
 });
 
