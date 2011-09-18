@@ -20,6 +20,18 @@ sendChat = function() {
   e.value = '';
 }
 
+getCursor = function() {
+  cursor = $('.ace_cursor')[0];
+  linem1 = parseInt(cursor.style.top.replace('px',''))/18;
+  column = (parseInt(cursor.style.left.replace('px',''))-4)/7;
+  text = acee.getValue().split("\n");
+  pos = 0;
+  for(i=0;i<linem1;i++) {
+    pos += text[i].length+1;
+  }
+  return pos+column;
+}
+
 key_handler = function (key) {
 	console.log('{'+cpos+','+ver+','+substr+','+e+'}');
 	socket.emit('text edit', {cursor:cpos, version:ver, substring:substr, edit:e});
