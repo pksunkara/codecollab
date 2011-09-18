@@ -1,6 +1,10 @@
 var socket = io.connect(window.location.origin);
 var members = [];
 
+var docVersion = 0,
+    noNeed = [37, 38, 39, 40],
+    sel = '';
+
 updateMembers = function() {
   var e = $('.members')[0];
   var r = members[0];
@@ -32,17 +36,25 @@ getCursor = function() {
   return pos+column;
 }
 
-key_handler = function (key) {
-  console.log('{'+cpos+','+ver+','+substr+','+e+'}');
-  socket.emit('text edit', {cursor:cpos, version:ver, substring:substr, edit:e});
+key_handler = function (event) {
+  var key = event.which || event.keyCode;
+  if(noNeed.indexOf(key)==-1 && !(event.altKey || event.ctrlKey)) {
+    var cpos = getCursor();
+    socket.emit('edit', {cursor: cpos, version: docVersion, sbstr: sel, edit: String.fromCharCode(key)});
+    return false;
+  }
 }
 
-socket.on('text edit', function (data){
-  console.log('text-edit: '+data);
+socket.on('edit', function (data){
   var text = acee.getValue();
-  text = text.substr(0,data.cpos-1) + data.edit + text.substr(data.cpos -1 + data.edit.length);
-  ver += 1;
+  text = text.substr(0,data.cursor-1) + data.edit + text.substr(data.cursor-1+data.edit.length);
+  docVersion += 1;
   acee.setValue(text);
+});
+
+socket.on('version', function(data){
+  version = data.version;
+  acee.setValue(data.text);
 });
 
 socket.on('nickname?', function(data){
@@ -66,13 +78,3 @@ socket.on('nickname?', function(data){
     putChat(data);
   });
 });
-
-/*
-$("#editor").keypress(function() {
-	alert("Handler for .keypress() called!");
-});
-*/
-function keyp(event) {
-    alert("Key - "+event.keyCode+" called!");
-    return true;
-}

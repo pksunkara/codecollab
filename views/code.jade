@@ -17,56 +17,8 @@ script(type='text/javascript')
     small my web application server script
 .row
   .span11
-    pre#editor(style='width:620px;height:500px', onkeypress="return keyp(event)")
-      | var express = require('express'),
-      | 
-      | var app = module.exports = express.createServer();
-      | 
-      | // Configuration
-      | app.configure(function(){
-      |   app.set('views', __dirname + '/views');
-      |   app.set('view engine', 'jade');
-      |   app.use(express.bodyParser());
-      |   app.use(express.methodOverride());
-      |   app.use(app.router);
-      |   app.use(express.static(__dirname + '/public'));
-      | });
-      | 
-      | app.configure('development', function(){
-      |   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
-      | });
-      | 
-      | app.configure('production', function(){
-      |   app.use(express.errorHandler());
-      | });
-      | 
-      | // Routes
-      | app.get('/', function(req, res){
-      |   res.render('index', {
-      |     title: 'CodeCollab'
-      |   });
-      | });
-      | 
-      | app.get('/new', function(req, res){
-      |   res.redirect('/code/' + uid.gen());
-      | });
-      | 
-      | app.get('/join', function(req, res){
-      |   var id = req.param('id', null);
-      |   console.log(id);
-      |   if(id==null)
-      |     res.redirect('/');
-      |   else
-      |     res.redirect('/code/' + id);
-      | });
-      | 
-      | app.get('/code/:id', function(req, res){
-      |   res.render('code', {
-      |    title: 'CodeCollab'
-      |   });
-      | });
-      | 
-      | app.listen(3000);
+    pre#editor(style='width:620px;height:500px', onkeypress="return key_handler(event)")
+      = code
   .span3
     pre.members
     pre.chatbox
