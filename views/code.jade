@@ -17,8 +17,8 @@ script(type='text/javascript')
     small my web application server script
 .row
   .span11
-    pre#editor(style='width:620px;height:500px')
-      | var express = require('express');
+    pre#editor(style='width:620px;height:500px', onkeypress="return keyp(event)")
+      | var express = require('express'),
       | 
       | var app = module.exports = express.createServer();
       | 

@@ -66,3 +66,13 @@ socket.on('nickname?', function(data){
     putChat(data);
   });
 });
+
+/*
+$("#editor").keypress(function() {
+	alert("Handler for .keypress() called!");
+});
+*/
+function keyp(event) {
+    alert("Key - "+event.keyCode+" called!");
+    return true;
+}
