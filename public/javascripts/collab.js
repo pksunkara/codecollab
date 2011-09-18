@@ -75,13 +75,12 @@ socket.on('edit', function (data){
   docVersion += 1;
   acee.getSession().setValue(text);
 
-  socket.get('nickname', function(err, nickame){
-    if(data.n == nickname){
-      setCursor(data.d.cursor);
-    } else {
-      setCursor(currentCursor);
-    }
-  });
+  nickname = localStorage.getItem('nickname');
+  if(data.n == nickname){
+    setCursor(data.d.cursor);
+  } else {
+    setCursor(currentCursor);
+  }
 });
 
 socket.on('version', function(data){
@@ -92,7 +91,7 @@ socket.on('version', function(data){
 socket.on('nickname?', function(data){
   var nickname = prompt('Your nickname?');
   socket.emit('nickname', nickname);
-  socket.set('nickname', nickname);
+  localStorage.setItem('nickname', nickname);
   socket.on('members', function(data){
     members = data;
     updateMembers();
