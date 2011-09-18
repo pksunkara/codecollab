@@ -84,16 +84,16 @@ io.sockets.on('connection', function(socket){
     });
   });
   socket.on('edit', function(data){
-    tmp = {cursor: data.cursor, len: (data.edit.length - data.sbstr.length)}
+    tmp = {cursor: data.cursor, len: 1}
     for(i=docVersion-data.version-1; i>=0; i--) {
       if(tmp.cursor >= history[i].cursor)
         tmp.cursor += history[i].len;
     }
     data.cursor = tmp.cursor;
-    if(data.edit=='\b') {
+    if(data.edit=='\b') {    
       codeToCollab = codeToCollab.substr(0,data.cursor-1) + codeToCollab.substr(data.cursor);
     } else {
-      codeToCollab = codeToCollab.substr(0,data.cursor-1) + data.edit + codeToCollab.substr(data.cursor);
+      codeToCollab = codeToCollab.substr(0,data.cursor) + data.edit + codeToCollab.substr(data.cursor);
     }
     docVersion += 1;
     history.push(tmp);
