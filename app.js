@@ -65,7 +65,6 @@ var sessions = [],
 io.sockets.on('connection', function(socket){
   socket.emit('nickname?', {});
   socket.on('nickname', function(data){
-    data = (data===null)? randomString() : data;
     socket.emit('version', {version: docVersion, text: codeToCollab});
     socket.emit('members', sessions);
     io.sockets.emit('join', {name: data, msg: data+' has joined the session'});
@@ -104,9 +103,7 @@ io.sockets.on('connection', function(socket){
   });
 });
 
-// Some useful functions
-
-function randomString() {
+randomString = function() {
   var text = "";
   var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   for( var i=0; i < 5; i++ )

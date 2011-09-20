@@ -1,70 +1,79 @@
 var socket = io.connect(window.location.origin);
 var members = [];
 var nickname = '';
+var aceEditorditor = null;
 
 var docVersion = 0,
     noNeed = [37, 38, 39, 40],
-    sel = '';
+    selectedText = '';
+
+window.onload = function() {
+  aceEditor = ace.edit("editor");
+  aceEditor.setTheme("ace/theme/twilight");
+
+  var JavaScriptMode = require("ace/mode/javascript").Mode;
+  aceEditor.getSession().setMode(new JavaScriptMode());
+}
 
 updateMembers = function() {
-  var e = $('.members')[0];
-  var r = members[0];
-  for(i=1;i<members.length;i++)
-    r += "\n"+members[i];
-  e.innerHTML = r;
+  $('.members')[0].innerHTML = members.join("\n");
 }
 
 putChat = function(msg) {
-  var e = $('.chatbox')[0];
-  e.innerHTML = e.innerHTML+msg+"\n";
+  var element = $('.chatbox')[0];
+  element.innerHTML = element.innerHTML+msg+"\n";
 }
 
 sendChat = function() {
-  var e = $('.chat')[0];
-  socket.emit('chat', e.value);
-  e.value = '';
+  var element = $('.chat')[0];
+  socket.emit('chat', element.value);
+  element.value = '';
 }
 
 getCursor = function() {
-  cursor = acee.getCursorPosition();
-  linem1 = cursor.row;
-  column = cursor.column;
-  text = acee.getSession().getValue().split("\n");
-  pos = 0;
-  for(i=0;i<linem1;i++) {
+  cursor = aceEditor.getCursorPosition();
+  text = aceEditor.getSession().getValue().split("\n");
+  for(i=0,pos=0;i<cursor.row;i++) {
     pos += text[i].length+1;
   }
-  return pos+column;
+  return pos+cursor.column;
 }
 
 setCursor = function(val) {
-  var text = acee.getSession().getValue();
-  var linem1 = 0;
-  var column = 0;
+  var text = aceEditor.getSession().getValue();
+  var row = column = 0;
   for(i=0;i<val;i++) {
     if(text[i]=="\n") {
-      linem1++;
+      row++;
       column = 0;
     } else
       column++;
   }
-  acee.gotoLine(linem1+1);
+  aceEditor.gotoLine(row+1);
   for(i=0; i<=column; i++) {
-    acee.selection.moveCursorRight();
+    aceEditor.selection.moveCursorRight();
   }
 }
 
-key_handler = function (event) {
+randomString = function() {
+  var text = "";
+  var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for( var i=0; i < 5; i++ )
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+}
+
+keyHandler = function (event) {
   var key = event.which || event.keyCode;
   if(noNeed.indexOf(key)==-1 && !(event.altKey || event.ctrlKey)) {
     var cpos = getCursor();
-    socket.emit('edit', {cursor: cpos, version: docVersion, sbstr: sel, edit: String.fromCharCode(key)});
+    socket.emit('edit', {cursor: cpos, version: docVersion, sbstr: selectedText, edit: String.fromCharCode(key)});
     return false;
   }
 }
 
 socket.on('edit', function (data){
-  var text = acee.getSession().getValue();
+  var text = aceEditor.getSession().getValue();
   var currentCursor = getCursor();
   if(data.d.edit == '\b') {
     if(nickname==data.n) {
@@ -76,7 +85,7 @@ socket.on('edit', function (data){
     text = text.substr(0,data.d.cursor) + data.d.edit + text.substr(data.d.cursor);
   }
   docVersion += 1;
-  acee.getSession().setValue(text);
+  aceEditor.getSession().setValue(text);
   if(data.n == nickname){
     setCursor(data.d.cursor);
   } else {
@@ -89,11 +98,12 @@ socket.on('edit', function (data){
 
 socket.on('version', function(data){
   version = data.version;
-  acee.getSession().setValue(data.text);
+  aceEditor.getSession().setValue(data.text);
 });
 
 socket.on('nickname?', function(data){
   nickname = prompt('Your nickname?');
+  nickname = (nickname===null)? randomString() : nickname;
   socket.emit('nickname', nickname);
   socket.on('members', function(data){
     members = data;
