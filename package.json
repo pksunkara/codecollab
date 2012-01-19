@@ -1,10 +1,48 @@
 {
-    "name": "codecollab"
-  , "version": "0.0.1"
-  , "private": true
-  , "dependencies": {
-      "express": "2.4.6"
-    , "jade": ">= 0.0.1"
-    , "socket.io": "0.8.4"
-  }
+  "name": "codecollab",
+  "version": "0.0.1",
+  "author": "Pavan Kumar Sunkara <pavan.sss1991@gmail.com> (pksunkara.github.com)",
+  "description": "An online code collaboration tool in nodejs",
+  "main": "",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/pksunkara/codecollab.git"
+  },
+  "keywords": [
+    ""
+  ],
+  "homepage": "http://pksunkara.github.com/codecollab",
+  "scripts": {},
+  "contributors": [
+    {
+      "name": "Pavan Kumar Sunkara",
+      "email": "pavan.sss1991@gmail.com"
+    },
+    {
+      "name": "Siddardha Garimella",
+      "email": "gsiddardha@gmail.com"
+    },
+    {
+      "name": "Nihar Settipalli"
+    }
+  ],
+  "dependencies": {
+    "express": "2.4.6",
+    "jade": ">= 0.0.1",
+    "socket.io": "0.8.4"
+  },
+  "devDependencies": {},
+  "engines": {
+    "node": ">=0.4"
+  },
+  "bugs": {
+    "url": "https://github.com/pksunkara/codecollab/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/pksunkara/codecollab/raw/master/LICENSE"
+    }
+  ],
+  "private": true
 }
