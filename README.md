@@ -21,6 +21,6 @@ Hopefully, we will release a bug-free version soon.
 
 ## SCEENSHOTS
 
-![Index page](http://github.com/pkumar/codecollab/raw/master/public/screenshots/Index.png "Index page")
+![Index page](http://github.com/pksunkara/codecollab/raw/master/public/screenshots/Index.png "Index page")
 
-![Editor page](http://github.com/pkumar/codecollab/raw/master/public/screenshots/Code.png "Editor page")
+![Editor page](http://github.com/pksunkara/codecollab/raw/master/public/screenshots/Code.png "Editor page")
